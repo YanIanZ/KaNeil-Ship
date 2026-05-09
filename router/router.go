@@ -4,10 +4,10 @@ import (
 	"emperror.dev/errors"
 	"github.com/apex/log"
 	"github.com/gin-gonic/gin"
-	"github.com/pelican-dev/wings/config"
-	"github.com/pelican-dev/wings/remote"
-	"github.com/pelican-dev/wings/router/middleware"
-	wserver "github.com/pelican-dev/wings/server"
+	"github.com/kaneil-dev/wings/config"
+	"github.com/kaneil-dev/wings/remote"
+	"github.com/kaneil-dev/wings/router/middleware"
+	wserver "github.com/kaneil-dev/wings/server"
 )
 
 // Configure configures the routing infrastructure for this daemon instance.

@@ -14,7 +14,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/pelican-dev/wings/internal/ufs"
+	"github.com/kaneil-dev/wings/internal/ufs"
 )
 
 type testUnixFS struct {

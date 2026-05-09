@@ -14,9 +14,9 @@ import (
 	dockerSystem "github.com/docker/docker/api/types/system" // Alias the correct system package
 	"github.com/docker/docker/pkg/parsers/kernel"
 	"github.com/docker/docker/pkg/parsers/operatingsystem"
-	"github.com/pelican-dev/wings/config"
-	"github.com/pelican-dev/wings/environment"
-	"github.com/pelican-dev/wings/system"
+	"github.com/kaneil-dev/wings/config"
+	"github.com/kaneil-dev/wings/environment"
+	"github.com/kaneil-dev/wings/system"
 )
 
 // GenerateDiagnosticsReport collects diagnostic data and returns it as a string.
@@ -24,7 +24,7 @@ func GenerateDiagnosticsReport(includeEndpoints bool, includeLogs bool, logLines
 	dockerVersion, dockerInfo, dockerErr := getDockerInfo()
 	output := &strings.Builder{}
 
-	fmt.Fprintln(output, "Pelican Wings - Diagnostics Report")
+	fmt.Fprintln(output, "KaNeil Wings - Diagnostics Report")
 	printHeader(output, "Versions")
 	fmt.Fprintln(output, "               Wings:", system.Version)
 	if dockerErr == nil {

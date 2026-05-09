@@ -12,9 +12,9 @@ import (
 
 	. "github.com/franela/goblin"
 
-	"github.com/pelican-dev/wings/internal/ufs"
+	"github.com/kaneil-dev/wings/internal/ufs"
 
-	"github.com/pelican-dev/wings/config"
+	"github.com/kaneil-dev/wings/config"
 )
 
 func NewFs() (*Filesystem, *rootFs) {
@@ -26,7 +26,7 @@ func NewFs() (*Filesystem, *rootFs) {
 		},
 	})
 
-	tmpDir, err := os.MkdirTemp(os.TempDir(), "pelican")
+	tmpDir, err := os.MkdirTemp(os.TempDir(), "kaneil")
 	if err != nil {
 		panic(err)
 		return nil, nil

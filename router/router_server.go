@@ -8,17 +8,17 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pelican-dev/wings/config"
+	"github.com/kaneil-dev/wings/config"
 
 	"emperror.dev/errors"
 	"github.com/apex/log"
 	"github.com/gin-gonic/gin"
 
-	"github.com/pelican-dev/wings/router/downloader"
-	"github.com/pelican-dev/wings/router/middleware"
-	"github.com/pelican-dev/wings/router/tokens"
-	"github.com/pelican-dev/wings/server"
-	"github.com/pelican-dev/wings/server/transfer"
+	"github.com/kaneil-dev/wings/router/downloader"
+	"github.com/kaneil-dev/wings/router/middleware"
+	"github.com/kaneil-dev/wings/router/tokens"
+	"github.com/kaneil-dev/wings/server"
+	"github.com/kaneil-dev/wings/server/transfer"
 )
 
 // Returns a single server from the collection of servers.

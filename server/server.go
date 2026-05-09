@@ -18,12 +18,12 @@ import (
 	"github.com/creasty/defaults"
 	"github.com/goccy/go-json"
 
-	"github.com/pelican-dev/wings/config"
-	"github.com/pelican-dev/wings/environment"
-	"github.com/pelican-dev/wings/events"
-	"github.com/pelican-dev/wings/remote"
-	"github.com/pelican-dev/wings/server/filesystem"
-	"github.com/pelican-dev/wings/system"
+	"github.com/kaneil-dev/wings/config"
+	"github.com/kaneil-dev/wings/environment"
+	"github.com/kaneil-dev/wings/events"
+	"github.com/kaneil-dev/wings/remote"
+	"github.com/kaneil-dev/wings/server/filesystem"
+	"github.com/kaneil-dev/wings/system"
 )
 
 // Server is the high level definition for a server instance being controlled
@@ -55,7 +55,7 @@ type Server struct {
 	emitter *events.Bus
 
 	// Defines the process configuration for the server instance. This is dynamically
-	// fetched from the Pelican Server instance each time the server process is
+	// fetched from the KaNeil Server instance each time the server process is
 	// started, and then cached here.
 	procConfig *remote.ProcessConfiguration
 

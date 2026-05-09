@@ -17,8 +17,8 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/google/uuid"
 
-	"github.com/pelican-dev/wings/config"
-	"github.com/pelican-dev/wings/server"
+	"github.com/kaneil-dev/wings/config"
+	"github.com/kaneil-dev/wings/server"
 )
 
 var client *http.Client
@@ -209,7 +209,7 @@ func (dl *Download) Execute() error {
 			return errors.WrapIf(err, "downloader: failed to create request")
 		}
 
-		req.Header.Set("User-Agent", "Pelican Panel (https://pelican.dev)")
+		req.Header.Set("User-Agent", "KaNeil Panel (https://kaneil.dev)")
 		res, err = client.Do(req)
 		if err != nil {
 			return errors.WrapIf(err, "downloader: failed to perform request")

@@ -9,9 +9,9 @@ import (
 	"emperror.dev/errors"
 	"github.com/apex/log"
 
-	"github.com/pelican-dev/wings/config"
-	"github.com/pelican-dev/wings/environment"
-	"github.com/pelican-dev/wings/internal/models"
+	"github.com/kaneil-dev/wings/config"
+	"github.com/kaneil-dev/wings/environment"
+	"github.com/kaneil-dev/wings/internal/models"
 
 )
 

@@ -14,12 +14,12 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/spf13/cobra"
 
-	"github.com/pelican-dev/wings/internal/diagnostics"
-	"github.com/pelican-dev/wings/loggers/cli"
+	"github.com/kaneil-dev/wings/internal/diagnostics"
+	"github.com/kaneil-dev/wings/loggers/cli"
 )
 
 const (
-	DefaultHastebinUrl = "https://logs.pelican.dev"
+	DefaultHastebinUrl = "https://logs.kaneil.dev"
 	DefaultLogLines    = 200
 )
 

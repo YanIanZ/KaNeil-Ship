@@ -1,6 +1,6 @@
 services:
   wings:
-    image: ghcr.io/pelican-dev/wings:latest
+    image: ghcr.io/kaneil-dev/wings:latest
     restart: always
     networks:
       - wings0
@@ -12,14 +12,14 @@ services:
       TZ: "UTC"
       WINGS_UID: 988
       WINGS_GID: 988
-      WINGS_USERNAME: pelican
+      WINGS_USERNAME: kaneil
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/var/lib/docker/containers/:/var/lib/docker/containers/"
-      - "/etc/pelican/:/etc/pelican/"
-      - "/var/lib/pelican/:/var/lib/pelican/"
-      - "/var/log/pelican/:/var/log/pelican/"
-      - "/tmp/pelican/:/tmp/pelican/"
+      - "/etc/kaneil/:/etc/kaneil/"
+      - "/var/lib/kaneil/:/var/lib/kaneil/"
+      - "/var/log/kaneil/:/var/log/kaneil/"
+      - "/tmp/kaneil/:/tmp/kaneil/"
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       # you may need /srv/daemon-data if you are upgrading from an old daemon
       #- "/srv/daemon-data/:/srv/daemon-data/"

@@ -10,11 +10,11 @@ import (
 
 	"github.com/apex/log"
 
-	"github.com/pelican-dev/wings/events"
-	"github.com/pelican-dev/wings/system"
+	"github.com/kaneil-dev/wings/events"
+	"github.com/kaneil-dev/wings/system"
 
-	"github.com/pelican-dev/wings/environment"
-	"github.com/pelican-dev/wings/remote"
+	"github.com/kaneil-dev/wings/environment"
+	"github.com/kaneil-dev/wings/remote"
 )
 
 var dockerEvents = []string{
