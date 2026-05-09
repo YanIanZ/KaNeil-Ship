@@ -115,7 +115,7 @@ type RemoteQueryConfiguration struct {
 	// are taking longer than 30 seconds to complete it is likely a performance issue that
 	// should be resolved on the Panel, and not something that should be resolved by upping this
 	// number.
-	Timeout int `default:"30" yaml:"timeout"`
+	Timeout int `default:"45" yaml:"timeout"`
 
 	// The number of servers to load in a single request to the Panel API when booting the
 	// Wings instance. A single request is initially made to the Panel to get this number
@@ -262,7 +262,7 @@ type CrashDetection struct {
 	// Timeout specifies the timeout between crashes that will not cause the server
 	// to be automatically restarted, this value is used to prevent servers from
 	// becoming stuck in a boot-loop after multiple consecutive crashes.
-	Timeout int `default:"60" json:"timeout"`
+	Timeout int `default:"120" json:"timeout"`
 }
 
 type Backups struct {
@@ -454,6 +454,23 @@ func Update(callback func(c *Configuration)) {
 	mu.Lock()
 	defer mu.Unlock()
 	callback(_config)
+}
+
+// Validate checks required configuration fields and returns an error if any are missing.
+func (c *Configuration) Validate() error {
+	if c.Uuid == "" {
+		return errors.New("config: uuid is required")
+	}
+	if c.TokenId == "" {
+		return errors.New("config: token_id is required (or set WINGS_TOKEN_ID)")
+	}
+	if c.Token == "" {
+		return errors.New("config: token is required (or set WINGS_TOKEN)")
+	}
+	if c.Remote == "" {
+		return errors.New("config: remote (panel URL) is required")
+	}
+	return nil
 }
 
 // GetJwtAlgorithm returns the in-memory JWT algorithm.

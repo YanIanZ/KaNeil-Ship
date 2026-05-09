@@ -434,6 +434,9 @@ func initConfig() {
 	if debug && !config.Get().Debug {
 		config.SetDebugViaFlag(debug)
 	}
+	if err := config.Get().Validate(); err != nil {
+		log2.Fatalf("cmd/root: invalid configuration: %s", err)
+	}
 }
 
 // Configures the global logger for Zap so that we can call it from any location
