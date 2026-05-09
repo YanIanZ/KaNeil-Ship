@@ -40,7 +40,7 @@ type Pagination struct {
 // ServerConfigurationResponse holds the server configuration data returned from
 // the Panel. When a server process is started, Wings communicates with the
 // Panel to fetch the latest build information as well as get all the details
-// needed to parse the given Egg.
+// needed to parse the given Map.
 //
 // This means we do not need to hit Wings each time part of the server is
 // updated, and the Panel serves as the source of truth at all times. This also

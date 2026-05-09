@@ -157,7 +157,7 @@ func (cfr *ConfigurationFileReplacement) setValueWithSjson(jsonStr string, path 
 
 	var setValue interface{}
 	if cfr.ReplaceWith.Type() == jsonparser.Boolean {
-		// Explicit boolean type declared in the egg definition.
+		// Explicit boolean type declared in the map definition.
 		v, err := strconv.ParseBool(value)
 		if err != nil {
 			log.WithFields(log.Fields{"value": value, "path": path, "match": cfr.Match}).Warn("cannot parse replacement as boolean, falling back to string value")

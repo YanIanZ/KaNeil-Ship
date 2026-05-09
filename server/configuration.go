@@ -8,12 +8,12 @@ import (
 )
 
 type EggConfiguration struct {
-	// The internal UUID of the Egg on the Panel.
+	// The internal UUID of the Map on the Panel.
 	ID string `json:"id"`
 
 	// Maintains a list of files that are blacklisted for opening/editing/downloading
 	// or basically any type of access on the server by any user. This is NOT the same
-	// as a per-user denylist, this is defined at the Egg level.
+	// as a per-user denylist, this is defined at the Map level.
 	FileDenylist []string `json:"file_denylist"`
 
 	// Features is a map of feature identifiers to a list of console output strings
@@ -21,19 +21,19 @@ type EggConfiguration struct {
 	Features map[string][]string `json:"features"`
 }
 
-func (egg *EggConfiguration) UnmarshalJSON(b []byte) (err error) {
+func (map *EggConfiguration) UnmarshalJSON(b []byte) (err error) {
 	type Alias EggConfiguration
 	var AliasEggConfiguration Alias
 
 	// try unmarshalling first
 	if err := json.Unmarshal(b, &AliasEggConfiguration); err != nil {
-		egg.Features = nil
+		map.Features = nil
 	} else {
-		egg.Features = AliasEggConfiguration.Features
+		map.Features = AliasEggConfiguration.Features
 	}
 
-	egg.ID = AliasEggConfiguration.ID
-	egg.FileDenylist = AliasEggConfiguration.FileDenylist
+	map.ID = AliasEggConfiguration.ID
+	map.FileDenylist = AliasEggConfiguration.FileDenylist
 
 	return nil
 }
@@ -75,7 +75,7 @@ type Configuration struct {
 	Build                 environment.Limits      `json:"build"`
 	CrashDetectionEnabled bool                    `json:"crash_detection_enabled"`
 	Mounts                []Mount                 `json:"mounts"`
-	Egg                   EggConfiguration        `json:"egg,omitempty"`
+	Map                   EggConfiguration        `json:"map,omitempty"`
 
 	Container struct {
 		// Defines the Docker image that will be used for this server

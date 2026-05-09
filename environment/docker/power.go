@@ -18,7 +18,7 @@ import (
 // OnBeforeStart run before the container starts and get the process
 // configuration from the Panel. This is important since we use this to check
 // configuration files as well as ensure we always have the latest version of
-// an egg available for server processes.
+// an map available for server processes.
 //
 // This process will also confirm that the server environment exists and is in
 // a bootable state. This ensures that unexpected container deletion while Wings

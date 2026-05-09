@@ -159,7 +159,7 @@ func (s *Server) onConsoleOutput(data []byte) {
 	}
 
 	processConfiguration := s.ProcessConfiguration()
-	EggConfiguration := s.cfg.Egg.Features
+	EggConfiguration := s.cfg.Map.Features
 
 	// Make a copy of the data provided since it is by reference, otherwise you'll
 	// potentially introduce a race condition by modifying the value.
@@ -192,7 +192,7 @@ func (s *Server) onConsoleOutput(data []byte) {
 		}
 	}
 
-	// Check if this Egg has Features configured that we need to listen for.
+	// Check if this Map has Features configured that we need to listen for.
 	if EggConfiguration != nil {
 		// Check if we should strip ansi color codes.
 		if processConfiguration.Startup.StripAnsi {

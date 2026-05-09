@@ -49,7 +49,7 @@ func (s *Server) install(reinstall bool) error {
 
 		err = s.internalInstall()
 	} else {
-		s.Log().Info("server configured to skip running installation scripts for this egg, not executing process")
+		s.Log().Info("server configured to skip running installation scripts for this map, not executing process")
 	}
 
 	s.Log().WithField("was_successful", err == nil).Debug("notifying panel of server install state")
@@ -79,7 +79,7 @@ func (s *Server) install(reinstall bool) error {
 }
 
 // Reinstall reinstalls a server's software by utilizing the installation script
-// for the server egg. This does not touch any existing files for the server,
+// for the server map. This does not touch any existing files for the server,
 // other than what the script modifies.
 func (s *Server) Reinstall() error {
 	if s.Environment.State() != environment.ProcessOfflineState {
