@@ -159,7 +159,7 @@ func (s *Server) onConsoleOutput(data []byte) {
 	}
 
 	processConfiguration := s.ProcessConfiguration()
-	EggConfiguration := s.cfg.Map.Features
+	MapConfiguration := s.cfg.Map.Features
 
 	// Make a copy of the data provided since it is by reference, otherwise you'll
 	// potentially introduce a race condition by modifying the value.
@@ -193,7 +193,7 @@ func (s *Server) onConsoleOutput(data []byte) {
 	}
 
 	// Check if this Map has Features configured that we need to listen for.
-	if EggConfiguration != nil {
+	if MapConfiguration != nil {
 		// Check if we should strip ansi color codes.
 		if processConfiguration.Startup.StripAnsi {
 			v = stripAnsiRegex.ReplaceAll(v, []byte(""))
@@ -205,7 +205,7 @@ func (s *Server) onConsoleOutput(data []byte) {
 		outputLower := strings.ToLower(output)
 
 	foundMatch:
-		for key, patterns := range EggConfiguration {
+		for key, patterns := range MapConfiguration {
 			for _, pattern := range patterns {
 				patternLower := strings.ToLower(pattern)
 				// Check if the current line contains a defined feature match string.

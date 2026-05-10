@@ -461,13 +461,13 @@ func (c *Configuration) Validate() error {
 	if c.Uuid == "" {
 		return errors.New("config: uuid is required")
 	}
-	if c.TokenId == "" {
+	if c.AuthenticationTokenId == "" {
 		return errors.New("config: token_id is required (or set WINGS_TOKEN_ID)")
 	}
-	if c.Token == "" {
+	if c.AuthenticationToken == "" {
 		return errors.New("config: token is required (or set WINGS_TOKEN)")
 	}
-	if c.Remote == "" {
+	if c.PanelLocation == "" {
 		return errors.New("config: remote (panel URL) is required")
 	}
 	return nil

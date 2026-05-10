@@ -7,7 +7,7 @@ import (
 	"github.com/kaneil-dev/wings/environment"
 )
 
-type EggConfiguration struct {
+type MapConfiguration struct {
 	// The internal UUID of the Map on the Panel.
 	ID string `json:"id"`
 
@@ -21,19 +21,19 @@ type EggConfiguration struct {
 	Features map[string][]string `json:"features"`
 }
 
-func (map *EggConfiguration) UnmarshalJSON(b []byte) (err error) {
-	type Alias EggConfiguration
-	var AliasEggConfiguration Alias
+func (mc *MapConfiguration) UnmarshalJSON(b []byte) (err error) {
+	type Alias MapConfiguration
+	var AliasMapConfiguration Alias
 
 	// try unmarshalling first
-	if err := json.Unmarshal(b, &AliasEggConfiguration); err != nil {
-		map.Features = nil
+	if err := json.Unmarshal(b, &AliasMapConfiguration); err != nil {
+		mc.Features = nil
 	} else {
-		map.Features = AliasEggConfiguration.Features
+		mc.Features = AliasMapConfiguration.Features
 	}
 
-	map.ID = AliasEggConfiguration.ID
-	map.FileDenylist = AliasEggConfiguration.FileDenylist
+	mc.ID = AliasMapConfiguration.ID
+	mc.FileDenylist = AliasMapConfiguration.FileDenylist
 
 	return nil
 }
@@ -75,7 +75,7 @@ type Configuration struct {
 	Build                 environment.Limits      `json:"build"`
 	CrashDetectionEnabled bool                    `json:"crash_detection_enabled"`
 	Mounts                []Mount                 `json:"mounts"`
-	Map                   EggConfiguration        `json:"map,omitempty"`
+	Map                   MapConfiguration        `json:"map,omitempty"`
 
 	Container struct {
 		// Defines the Docker image that will be used for this server
