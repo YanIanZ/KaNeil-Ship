@@ -28,7 +28,7 @@ var format = archives.CompressedArchive{
 type AdapterType string
 
 const (
-	LocalBackupAdapter AdapterType = "wings"
+	LocalBackupAdapter AdapterType = "ship"
 	S3BackupAdapter    AdapterType = "s3"
 )
 

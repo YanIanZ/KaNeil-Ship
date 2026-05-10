@@ -277,7 +277,7 @@ func (e *Environment) Create() error {
 		e.log().Debug("Set macvlan " + serverNetConfig.Name + " IP to " + defaultMapping.Ip)
 		netConf = &network.NetworkingConfig{
 			EndpointsConfig: map[string]*network.EndpointSettings{
-				serverNetConfig.Name: { //Get network name from wings config
+				serverNetConfig.Name: { //Get network name from ship config
 					IPAMConfig: &network.EndpointIPAMConfig{
 						IPv4Address: defaultMapping.Ip,
 					},

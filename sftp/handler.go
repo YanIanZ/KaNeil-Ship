@@ -40,7 +40,7 @@ type Handler struct {
 func NewHandler(sc *ssh.ServerConn, srv *server.Server) (*Handler, error) {
 	uuid, ok := sc.Permissions.Extensions["user"]
 	if !ok {
-		return nil, errors.New("sftp: mismatched Wings and Panel versions — Panel 1.10 is required for this version of Wings.")
+		return nil, errors.New("sftp: mismatched Ship and Panel versions — Panel 1.10 is required for this version of Ship.")
 	}
 
 	events := eventHandler{

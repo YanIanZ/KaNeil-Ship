@@ -74,7 +74,7 @@ type SftpConfiguration struct {
 }
 
 // ApiConfiguration defines the configuration for the internal API that is
-// exposed by the Wings webserver.
+// exposed by the Ship webserver.
 type ApiConfiguration struct {
 	// The interface that the internal webserver should bind to.
 	Host string `default:"0.0.0.0" yaml:"host"`
@@ -118,7 +118,7 @@ type RemoteQueryConfiguration struct {
 	Timeout int `default:"45" yaml:"timeout"`
 
 	// The number of servers to load in a single request to the Panel API when booting the
-	// Wings instance. A single request is initially made to the Panel to get this number
+	// Ship instance. A single request is initially made to the Panel to get this number
 	// of servers, and then the pagination status is checked and additional requests are
 	// fired off in parallel to request the remaining pages.
 	//
@@ -140,7 +140,7 @@ type SystemConfiguration struct {
 	// The root directory where all of the kaneil data is stored at.
 	RootDirectory string `default:"/var/lib/kaneil" json:"-" yaml:"root_directory"`
 
-	// Directory where logs for server installations and other wings events are logged.
+	// Directory where logs for server installations and other ship events are logged.
 	LogDirectory string `default:"/var/log/kaneil" json:"-" yaml:"log_directory"`
 
 	// Directory where the server data is stored at.
@@ -159,11 +159,11 @@ type SystemConfiguration struct {
 	// The user that should own all of the server files, and be used for containers.
 	Username string `default:"kaneil" yaml:"username"`
 
-	// The timezone for this Wings instance. This is detected by Wings automatically if possible,
+	// The timezone for this Ship instance. This is detected by Ship automatically if possible,
 	// and falls back to UTC if not able to be detected. If you need to set this manually, that
 	// can also be done.
 	//
-	// This timezone value is passed into all containers created by Wings.
+	// This timezone value is passed into all containers created by Ship.
 	Timezone string `yaml:"timezone"`
 
 	// Definitions for the user that gets created to ensure that we can quickly access
@@ -206,7 +206,7 @@ type SystemConfiguration struct {
 
 	// The amount of time in seconds that can elapse before a server's disk space calculation is
 	// considered stale and a re-check should occur. DANGER: setting this value too low can seriously
-	// impact system performance and cause massive I/O bottlenecks and high CPU usage for the Wings
+	// impact system performance and cause massive I/O bottlenecks and high CPU usage for the Ship
 	// process.
 	//
 	// Set to 0 to disable disk checking entirely. This will always return 0 for the disk space used
@@ -276,7 +276,7 @@ type Backups struct {
 	// Defaults to 0 (unlimited)
 	WriteLimit int `default:"0" yaml:"write_limit"`
 
-	// CompressionLevel determines how much backups created by wings should be compressed.
+	// CompressionLevel determines how much backups created by ship should be compressed.
 	//
 	// "none" -> no compression will be applied
 	// "best_speed" -> uses gzip level 1 for fast speed
@@ -324,7 +324,7 @@ type Configuration struct {
 	// The location from which this configuration instance was instantiated.
 	path string
 
-	// Determines if wings should be running in debug mode. This value is ignored
+	// Determines if ship should be running in debug mode. This value is ignored
 	// if the debug flag is passed through the command line arguments.
 	Debug bool
 
@@ -462,10 +462,10 @@ func (c *Configuration) Validate() error {
 		return errors.New("config: uuid is required")
 	}
 	if c.AuthenticationTokenId == "" {
-		return errors.New("config: token_id is required (or set WINGS_TOKEN_ID)")
+		return errors.New("config: token_id is required (or set SHIP_TOKEN_ID)")
 	}
 	if c.AuthenticationToken == "" {
-		return errors.New("config: token is required (or set WINGS_TOKEN)")
+		return errors.New("config: token is required (or set SHIP_TOKEN)")
 	}
 	if c.PanelLocation == "" {
 		return errors.New("config: remote (panel URL) is required")
@@ -522,9 +522,9 @@ func EnsureKaNeilUser() error {
 
 	// Our way of detecting if wings is running inside of Docker.
 	if sysName == "distroless" {
-		_config.System.Username = system.FirstNotEmpty(os.Getenv("WINGS_USERNAME"), "kaneil")
-		_config.System.User.Uid = system.MustInt(system.FirstNotEmpty(os.Getenv("WINGS_UID"), "988"))
-		_config.System.User.Gid = system.MustInt(system.FirstNotEmpty(os.Getenv("WINGS_GID"), "988"))
+		_config.System.Username = system.FirstNotEmpty(os.Getenv("SHIP_USERNAME"), "kaneil")
+		_config.System.User.Uid = system.MustInt(system.FirstNotEmpty(os.Getenv("SHIP_UID"), "988"))
+		_config.System.User.Gid = system.MustInt(system.FirstNotEmpty(os.Getenv("SHIP_GID"), "988"))
 		return nil
 	}
 
@@ -596,8 +596,8 @@ func FromFile(path string) error {
 	}
 
 	c.Token = Token{
-		ID:    os.Getenv("WINGS_TOKEN_ID"),
-		Token: os.Getenv("WINGS_TOKEN"),
+		ID:    os.Getenv("SHIP_TOKEN_ID"),
+		Token: os.Getenv("SHIP_TOKEN"),
 	}
 	if c.Token.ID == "" {
 		c.Token.ID = c.AuthenticationTokenId
@@ -712,7 +712,7 @@ func ConfigurePasswd() (err error) {
 // This function IS NOT thread-safe.
 func EnableLogRotation() error {
 	if !_config.System.EnableLogRotate {
-		log.Info("skipping log rotate configuration, disabled in wings config file")
+		log.Info("skipping log rotate configuration, disabled in ship config file")
 		return nil
 	}
 
@@ -721,7 +721,7 @@ func EnableLogRotation() error {
 	} else if (err != nil && os.IsNotExist(err)) || !st.IsDir() {
 		return nil
 	}
-	if _, err := os.Stat("/etc/logrotate.d/wings"); err == nil || !os.IsNotExist(err) {
+	if _, err := os.Stat("/etc/logrotate.d/ship"); err == nil || !os.IsNotExist(err) {
 		return err
 	}
 
@@ -729,7 +729,7 @@ func EnableLogRotation() error {
 	// If we've gotten to this point it means the logrotate directory exists on the system
 	// but there is not a file for wings already. In that case, let us write a new file to
 	// it so files can be rotated easily.
-	f, err := os.Create("/etc/logrotate.d/wings")
+	f, err := os.Create("/etc/logrotate.d/ship")
 	if err != nil {
 		return err
 	}
@@ -744,7 +744,7 @@ func EnableLogRotation() error {
     missingok
     notifempty
     postrotate
-        /usr/bin/systemctl kill -s HUP wings.service >/dev/null 2>&1 || true
+        /usr/bin/systemctl kill -s HUP ship.service >/dev/null 2>&1 || true
     endscript
 }`)
 	if err != nil {

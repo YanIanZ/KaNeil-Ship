@@ -27,7 +27,7 @@ import (
 )
 
 // Server is the high level definition for a server instance being controlled
-// by Wings.
+// by Ship.
 type Server struct {
 	// Internal mutex used to block actions that need to occur sequentially, such as
 	// writing the configuration to the disk.

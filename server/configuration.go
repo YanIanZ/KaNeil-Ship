@@ -62,7 +62,7 @@ type Configuration struct {
 
 	// By default this is false, however if selected within the Panel while installing or re-installing a
 	// server, specific installation scripts will be skipped for the server process.
-	SkipEggScripts bool `json:"skip_egg_scripts"`
+	SkipMapScripts bool `json:"skip_map_scripts"`
 
 	// An array of environment variables that should be passed along to the running
 	// server process.

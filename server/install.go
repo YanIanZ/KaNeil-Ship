@@ -40,7 +40,7 @@ func (s *Server) Install() error {
 
 func (s *Server) install(reinstall bool) error {
 	var err error
-	if !s.Config().SkipEggScripts {
+	if !s.Config().SkipMapScripts {
 		// Send the start event so the Panel can automatically update. We don't
 		// send this unless the process is actually going to run, otherwise all
 		// sorts of weird rapid UI behavior happens since there isn't an actual
@@ -484,7 +484,7 @@ func (ip *InstallationProcess) Execute() (string, error) {
 		ip.Server.Log().Debug("Set macvlan " + serverNetConfig.Name + " IP to " + defaultMapping.Ip)
 		netConf = &network.NetworkingConfig{
 			EndpointsConfig: map[string]*network.EndpointSettings{
-				serverNetConfig.Name: { //Get network name from wings config
+				serverNetConfig.Name: { //Get network name from ship config
 					IPAMConfig: &network.EndpointIPAMConfig{
 						IPv4Address: defaultMapping.Ip,
 					},

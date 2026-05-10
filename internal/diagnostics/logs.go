@@ -24,9 +24,9 @@ func GenerateDiagnosticsReport(includeEndpoints bool, includeLogs bool, logLines
 	dockerVersion, dockerInfo, dockerErr := getDockerInfo()
 	output := &strings.Builder{}
 
-	fmt.Fprintln(output, "KaNeil Wings - Diagnostics Report")
+	fmt.Fprintln(output, "KaNeil Ship - Diagnostics Report")
 	printHeader(output, "Versions")
-	fmt.Fprintln(output, "               Wings:", system.Version)
+	fmt.Fprintln(output, "               Ship:", system.Version)
 	if dockerErr == nil {
 		fmt.Fprintln(output, "              Docker:", dockerVersion.Version)
 	}
@@ -37,7 +37,7 @@ func GenerateDiagnosticsReport(includeEndpoints bool, includeLogs bool, logLines
 		fmt.Fprintln(output, "                  OS:", os)
 	}
 
-	printHeader(output, "Wings Configuration")
+	printHeader(output, "Ship Configuration")
 	if err := config.FromFile(config.DefaultLocation); err != nil {
 	}
 	cfg := config.Get()
@@ -94,7 +94,7 @@ func GenerateDiagnosticsReport(includeEndpoints bool, includeLogs bool, logLines
 		fmt.Fprint(output, "Couldn't list containers: ", err)
 	}
 
-	printHeader(output, "Latest Wings Logs")
+	printHeader(output, "Latest Ship Logs")
 	if includeLogs {
 		p := path.Join(cfg.System.LogDirectory, "ship.log")
 		if c, err := exec.Command("tail", "-n", strconv.Itoa(logLines), p).Output(); err == nil {

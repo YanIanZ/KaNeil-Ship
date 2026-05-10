@@ -147,7 +147,7 @@ func pruneDockerImages(c *gin.Context) {
 }
 
 // Returns all the servers that are registered and configured correctly on
-// this wings instance.
+// this ship instance.
 func getAllServers(c *gin.Context) {
 	servers := middleware.ExtractManager(c).All()
 	out := make([]server.APIResponse, len(servers), len(servers))
@@ -219,7 +219,7 @@ type postUpdateConfigurationResponse struct {
 	Applied bool `json:"applied"`
 }
 
-// Updates the running configuration for this Wings instance.
+// Updates the running configuration for this Ship instance.
 func postUpdateConfiguration(c *gin.Context) {
 	cfg := config.Get()
 

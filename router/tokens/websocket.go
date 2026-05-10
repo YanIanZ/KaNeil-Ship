@@ -15,7 +15,7 @@ import (
 //
 // By doing this we make it so that a user who gets disconnected from Wings due to a Wings
 // reboot just needs to request a new token as if their old token had expired naturally.
-var wingsBootTime = time.Now()
+var shipBootTime = time.Now()
 
 // A map that contains any JTI's that have been denied by the Panel and the time at which
 // they were marked as denied. Therefore any JWT with the same JTI and an IssuedTime that
@@ -86,7 +86,7 @@ func (p *WebsocketPayload) Denylisted() bool {
 
 	// If the time that the token was issued is before the time at which Wings was booted
 	// then the token is invalid for our purposes, even if the token "has permission".
-	if p.IssuedAt.Time.Before(wingsBootTime) {
+	if p.IssuedAt.Time.Before(shipBootTime) {
 		return true
 	}
 
