@@ -34,7 +34,7 @@ var diagnosticsArgs struct {
 func newDiagnosticsCommand() *cobra.Command {
 	command := &cobra.Command{
 		Use:   "diagnostics",
-		Short: "Collect and report information about this Wings instance to assist in debugging.",
+		Short: "Collect and report information about this Ship instance to assist in debugging.",
 		PreRun: func(cmd *cobra.Command, args []string) {
 			initConfig()
 			log.SetHandler(cli.Default)
@@ -48,9 +48,9 @@ func newDiagnosticsCommand() *cobra.Command {
 	return command
 }
 
-// diagnosticsCmdRun collects diagnostics about wings, its configuration and the node.
+// diagnosticsCmdRun collects diagnostics about ship, its configuration and the node.
 // We collect:
-// - wings and docker versions
+// - ship and docker versions
 // - relevant parts of daemon configuration
 // - the docker debug output
 // - running docker containers

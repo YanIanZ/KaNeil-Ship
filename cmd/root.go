@@ -45,14 +45,14 @@ var (
 )
 
 var rootCommand = &cobra.Command{
-	Use:   "wings",
+	Use:   "ship",
 	Short: "Runs the API server allowing programmatic control of game servers for KaNeil Panel.",
 	PreRun: func(cmd *cobra.Command, args []string) {
 		initConfig()
 		initLogging()
 		if tls, _ := cmd.Flags().GetBool("auto-tls"); tls {
 			if host, _ := cmd.Flags().GetString("tls-hostname"); host == "" {
-				fmt.Println("A TLS hostname must be provided when running wings with automatic TLS, e.g.:\n\n    ./wings --auto-tls --tls-hostname my.example.com")
+				fmt.Println("A TLS hostname must be provided when running ship with automatic TLS, e.g.:\n\n    ./ship --auto-tls --tls-hostname my.example.com")
 				os.Exit(1)
 			}
 		}
@@ -64,7 +64,7 @@ var versionCommand = &cobra.Command{
 	Use:   "version",
 	Short: "Prints the current executable version and exits.",
 	Run: func(cmd *cobra.Command, _ []string) {
-		fmt.Printf("wings v%s\nCopyright © 2018 - %d Dane Everitt & Contributors\n", system.Version, time.Now().Year())
+		fmt.Printf("ship v%s\nCopyright © 2018 - %d Dane Everitt & Contributors\n", system.Version, time.Now().Year())
 	},
 }
 
@@ -76,13 +76,13 @@ func Execute() {
 
 func init() {
 	rootCommand.PersistentFlags().StringVar(&configPath, "config", config.DefaultLocation, "set the location for the configuration file")
-	rootCommand.PersistentFlags().BoolVar(&debug, "debug", false, "pass in order to run wings in debug mode")
+	rootCommand.PersistentFlags().BoolVar(&debug, "debug", false, "pass in order to run ship in debug mode")
 
 	// Flags specifically used when running the API.
 	rootCommand.Flags().Bool("pprof", false, "if the pprof profiler should be enabled. The profiler will bind to localhost:6060 by default")
 	rootCommand.Flags().Int("pprof-block-rate", 0, "enables block profile support, may have performance impacts")
 	rootCommand.Flags().Int("pprof-port", 6060, "If provided with --pprof, the port it will run on")
-	rootCommand.Flags().Bool("auto-tls", false, "pass in order to have wings generate and manage its own SSL certificates using Let's Encrypt")
+	rootCommand.Flags().Bool("auto-tls", false, "pass in order to have ship generate and manage its own SSL certificates using Let's Encrypt")
 	rootCommand.Flags().String("tls-hostname", "", "required with --auto-tls, the FQDN for the generated SSL certificate")
 	rootCommand.Flags().Bool("ignore-certificate-errors", false, "ignore certificate verification errors when executing API calls")
 
@@ -130,7 +130,7 @@ func rootCmdRun(cmd *cobra.Command, _ []string) {
 		log.WithField("error", err).Fatal("failed to detect system timezone or use supplied configuration value")
 		return
 	}
-	log.WithField("timezone", config.Get().System.Timezone).Info("configured wings with system timezone")
+	log.WithField("timezone", config.Get().System.Timezone).Info("configured ship with system timezone")
 	if err := config.ConfigureDirectories(); err != nil {
 		log.WithField("error", err).Fatal("failed to configure system directories for kaneil")
 		return
@@ -198,7 +198,7 @@ func rootCmdRun(cmd *cobra.Command, _ []string) {
 
 	ticker := time.NewTicker(time.Minute)
 	// Every minute, write the current server states to the disk to allow for a more
-	// seamless hard-reboot process in which wings will re-sync server states based
+	// seamless hard-reboot process in which ship will re-sync server states based
 	// on its last tracked state.
 	go func() {
 		for {
@@ -215,7 +215,7 @@ func rootCmdRun(cmd *cobra.Command, _ []string) {
 	}()
 
 	// Create a new workerpool that limits us to 4 servers being bootstrapped at a time
-	// on Wings. This allows us to ensure the environment exists, write configurations,
+	// on Ship. This allows us to ensure the environment exists, write configurations,
 	// and reboot processes without causing a slow-down due to sequential booting.
 	pool := workerpool.New(4)
 	for _, serv := range manager.All() {
@@ -235,7 +235,7 @@ func rootCmdRun(cmd *cobra.Command, _ []string) {
 			}
 
 			// Use a timed context here to avoid booting issues where Docker hangs for a
-			// specific container that would cause Wings to be un-bootable until the entire
+			// specific container that would cause Ship to be un-bootable until the entire
 			// machine is rebooted. It is much better for us to just have a single failed
 			// server instance than an entire offline node.
 			//
@@ -245,19 +245,19 @@ func rootCmdRun(cmd *cobra.Command, _ []string) {
 			defer cancel()
 
 			r, err := s.Environment.IsRunning(ctx)
-			// We ignore missing containers because we don't want to actually block booting of wings at this
-			// point. If we didn't do this, and you pruned all the images and then started wings you could
-			// end up waiting a long period of time for all the images to be re-pulled on Wings boot rather
+			// We ignore missing containers because we don't want to actually block booting of ship at this
+			// point. If we didn't do this, and you pruned all the images and then started ship you could
+			// end up waiting a long period of time for all the images to be re-pulled on Ship boot rather
 			// than when the server itself is started.
 			if err != nil && !client.IsErrNotFound(err) {
 				s.Log().WithField("error", err).Error("error checking server environment status")
 			}
 
-			// Check if the server was previously running. If so, attempt to start the server now so that Wings
+			// Check if the server was previously running. If so, attempt to start the server now so that Ship
 			// can pick up where it left off. If the environment does not exist at all, just create it and then allow
 			// the normal flow to execute.
 			//
-			// This does mean that booting wings after a catastrophic machine crash and wiping out the Docker images
+			// This does mean that booting ship after a catastrophic machine crash and wiping out the Docker images
 			// as a result will result in a slow boot.
 			if !r && (st == environment.ProcessRunningState || st == environment.ProcessStartingState) {
 				if err := s.HandlePowerAction(server.PowerActionStart); err != nil {
@@ -265,8 +265,8 @@ func rootCmdRun(cmd *cobra.Command, _ []string) {
 				}
 			} else if r || (!r && s.IsRunning()) {
 				// If the server is currently running on Docker, mark the process as being in that state.
-				// We never want to stop an instance that is currently running external from Wings since
-				// that is a good way of keeping things running even if Wings gets in a very corrupted state.
+				// We never want to stop an instance that is currently running external from Ship since
+				// that is a good way of keeping things running even if Ship gets in a very corrupted state.
 				//
 				// This will also validate that a server process is running if the last tracked state we have
 				// is that it was running, but we see that the container process is not currently running.
@@ -320,7 +320,7 @@ func rootCmdRun(cmd *cobra.Command, _ []string) {
 	go func() {
 		log.Info("updating server states on Panel: marking installing/restoring servers as normal")
 		// Update all the servers on the Panel to be in a valid state if they're
-		// currently marked as installing/restoring now that Wings is restarted.
+		// currently marked as installing/restoring now that Ship is restarted.
 		if err := pclient.ResetServersState(cmd.Context()); err != nil {
 			log.WithField("error", err).Error("failed to reset server states on Panel: some instances may be stuck in an installing/restoring state unexpectedly")
 		}
@@ -446,10 +446,10 @@ func initLogging() {
 	if err := os.MkdirAll(path.Join(dir, "/install"), 0o700); err != nil {
 		log2.Fatalf("cmd/root: failed to create install directory path: %s", err)
 	}
-	p := filepath.Join(dir, "/wings.log")
+	p := filepath.Join(dir, "/ship.log")
 	w, err := logrotate.NewFile(p)
 	if err != nil {
-		log2.Fatalf("cmd/root: failed to create wings log: %s", err)
+		log2.Fatalf("cmd/root: failed to create ship log: %s", err)
 	}
 	log.SetLevel(log.InfoLevel)
 	if config.Get().Debug {
@@ -459,7 +459,7 @@ func initLogging() {
 	log.WithField("path", p).Info("writing log files to disk")
 }
 
-// Prints the wings logo, nothing special here!
+// Prints the ship logo, nothing special here!
 func printLogo() {
 	fmt.Printf(colorstring.Color(`
                      ____
@@ -484,7 +484,7 @@ func exitWithConfigurationNotice() {
 	fmt.Print(colorstring.Color(`
 [_red_][white][bold]Error: Configuration File Not Found[reset]
 
-Wings was not able to locate your configuration file, and therefore is not
+Ship was not able to locate your configuration file, and therefore is not
 able to complete its boot process. Please ensure you have copied your instance
 configuration file into the default location below.
 

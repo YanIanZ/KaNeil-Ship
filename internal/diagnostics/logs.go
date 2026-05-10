@@ -96,7 +96,7 @@ func GenerateDiagnosticsReport(includeEndpoints bool, includeLogs bool, logLines
 
 	printHeader(output, "Latest Wings Logs")
 	if includeLogs {
-		p := path.Join(cfg.System.LogDirectory, "wings.log")
+		p := path.Join(cfg.System.LogDirectory, "ship.log")
 		if c, err := exec.Command("tail", "-n", strconv.Itoa(logLines), p).Output(); err == nil {
 			fmt.Fprintf(output, "%s\n", string(c))
 		} else {

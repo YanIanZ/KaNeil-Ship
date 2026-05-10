@@ -25,12 +25,12 @@ var updateArgs struct {
 func newSelfupdateCommand() *cobra.Command {
 	command := &cobra.Command{
 		Use:   "update",
-		Short: "Update wings to the latest version",
+		Short: "Update ship to the latest version",
 		Run:   selfupdateCmdRun,
 	}
 
 	command.Flags().StringVar(&updateArgs.repoOwner, "repo-owner", "kaneil-dev", "GitHub repository owner")
-	command.Flags().StringVar(&updateArgs.repoName, "repo-name", "wings", "GitHub repository name")
+	command.Flags().StringVar(&updateArgs.repoName, "repo-name", "ship", "GitHub repository name")
 	command.Flags().BoolVar(&updateArgs.force, "force", false, "Force update even if on latest version")
 
 	return command
@@ -80,7 +80,7 @@ func selfupdateCmdRun(_ *cobra.Command, _ []string) {
 		return
 	}
 
-	fmt.Println("\nUpdate successful! Please restart the wings service (e.g., systemctl restart wings)")
+	fmt.Println("\nUpdate successful! Please restart the ship service (e.g., systemctl restart ship)")
 }
 
 func performUpdate(version, binaryName string) error {
@@ -89,7 +89,7 @@ func performUpdate(version, binaryName string) error {
 	checksumURL := fmt.Sprintf("https://github.com/%s/%s/releases/download/%s/checksums.txt",
 		updateArgs.repoOwner, updateArgs.repoName, version)
 
-	tmpDir, err := os.MkdirTemp("", "wings-update-*")
+	tmpDir, err := os.MkdirTemp("", "ship-update-*")
 	if err != nil {
 		return fmt.Errorf("failed to create temp directory: %v", err)
 	}
@@ -217,9 +217,9 @@ func fetchLatestGitHubRelease() (string, error) {
 func determineBinaryName() string {
 	switch runtime.GOARCH {
 	case "amd64":
-		return "wings_linux_amd64"
+		return "ship_linux_amd64"
 	case "arm64":
-		return "wings_linux_arm64"
+		return "ship_linux_arm64"
 	default:
 		return ""
 	}

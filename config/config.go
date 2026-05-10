@@ -735,7 +735,7 @@ func EnableLogRotation() error {
 	}
 	defer f.Close()
 
-	t, err := template.New("logrotate").Parse(`{{.LogDirectory}}/wings.log {
+	t, err := template.New("logrotate").Parse(`{{.LogDirectory}}/ship.log {
     size 10M
     compress
     delaycompress

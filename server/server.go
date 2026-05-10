@@ -449,7 +449,7 @@ func (s *Server) IsRunning() bool {
 }
 
 // APIResponse is a type returned when requesting details about a single server
-// instance on Wings. This includes the information needed by the Panel in order
+// instance on Ship. This includes the information needed by the Panel in order
 // to show resource utilization and the current state on this system.
 type APIResponse struct {
 	State         string        `json:"state"`

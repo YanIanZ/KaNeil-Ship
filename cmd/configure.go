@@ -28,7 +28,7 @@ var configureArgs struct {
 
 var configureCmd = &cobra.Command{
 	Use:   "configure",
-	Short: "Use a token to configure wings automatically",
+	Short: "Use a token to configure ship automatically",
 	Run:   configureCmdRun,
 }
 
@@ -152,7 +152,7 @@ func configureCmdRun(cmd *cobra.Command, args []string) {
 		panic(err)
 	}
 
-	fmt.Println("Successfully configured wings.")
+	fmt.Println("Successfully configured ship.")
 }
 
 func getRequest() (*http.Request, error) {
