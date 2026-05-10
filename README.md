@@ -2,7 +2,7 @@
 
 > **Forked from [Pelican Wings](https://github.com/pelican-dev/wings)** — rebranded, config overhaul, Map support.
 
-Wings is KaNeil's server control plane, built for the rapidly changing gaming industry and designed to be
+Ship is KaNeil's server control plane, built for the rapidly changing gaming industry and designed to be
 highly performant and secure. Wings provides an HTTP API allowing you to interface directly with running server
 instances, fetch server logs, generate backups, and control all aspects of the server lifecycle.
 
