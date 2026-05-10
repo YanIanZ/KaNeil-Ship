@@ -11,7 +11,7 @@ RUN CGO_ENABLED=0 go build \
     -ldflags="-s -w -X github.com/kaneil-dev/wings/system.Version=$VERSION" \
     -v \
     -trimpath \
-    -o wings \
+    -o ship \
     wings.go
 RUN echo "ID=\"distroless\"" > /etc/os-release
 
@@ -19,7 +19,7 @@ RUN echo "ID=\"distroless\"" > /etc/os-release
 FROM gcr.io/distroless/static:latest
 COPY --from=builder /etc/os-release /etc/os-release
 
-COPY --from=builder /app/wings /usr/bin/
-CMD [ "/usr/bin/wings", "--config", "/etc/kaneil/config.yml" ]
+COPY --from=builder /app/ship /usr/bin/
+CMD [ "/usr/bin/ship", "--config", "/etc/kaneil/config.yml" ]
 
 EXPOSE 8080
